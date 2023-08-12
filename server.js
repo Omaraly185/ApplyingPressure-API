@@ -4,7 +4,7 @@ const moment = require("moment");
 const keys = require("./applying-pressure-388505-61bbc5c65b27.json");
 const nodemailer = require("nodemailer");
 const app = express();
-const port = 5000;
+const port = process.env.PORT || 4000;
 const cors = require("cors");
 
 app.use(express.json());
