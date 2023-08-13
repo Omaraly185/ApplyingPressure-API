@@ -111,7 +111,7 @@ app.post("/events", async (req, res) => {
     console.log("Created event:", createdEvent.data);
 
     await sendMail({
-      to: "omaraly185@gmail.com",
+      to: "applyingpressureaq@gmail.com",
       subject: "Event Created Successfully",
       text: `Hi,
           Great news! Someone just booked one of your services.
@@ -125,15 +125,32 @@ address:${location}
 When:${selectedDate} ${selectedTime}
 Does the vehicle have pet hair? (check if yes) : Yes
 Please State any + Services you would like to get and anything else you would want us to know: 
+FYI Omar Aly a G.
 
 `,
     });
     await sendMail({
       to: email,
-      subject: "Event Created Successfully",
-      text: `Hell Yeah`,
-    });
+      subject: "Confirmation: Your Appointment with Applying Pressure",
+      text: `
+    Dear ${name},
 
+    Thank you for choosing Applying Pressure for your detailing needs. We are pleased to confirm your upcoming appointment:
+
+    **Date:** ${selectedDate}
+    **Time:** ${selectedTime}
+
+    We will reach out shortly to verify the details and answer any questions you might have.
+
+    If you need to make any changes to your appointment or if you have any inquiries, please don't hesitate to contact us at applyingpressureaq@gmail.com.
+
+    Thank you for your trust in our services. We look forward to delivering an exceptional experience for you.
+
+    Warm regards,
+
+    The Applying Pressure Team
+  `,
+    });
     res
       .status(200)
       .json({ success: true, message: "Appointment created successfully" });
