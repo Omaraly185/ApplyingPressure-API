@@ -132,8 +132,7 @@ FYI Omar Aly a G.
     await sendMail({
       to: email,
       subject: "Confirmation: Your Appointment with Applying Pressure",
-      text: `
-    Dear ${name},
+      text: `Dear ${name},
 
     Thank you for choosing Applying Pressure for your detailing needs. We are pleased to confirm your upcoming appointment:
 
