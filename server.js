@@ -93,18 +93,12 @@ app.post("/events", async (req, res) => {
     const eventStartTime = moment(
       `${selectedDate} ${selectedTime}`,
       "MMMM D, YYYY h:mm A"
-    );
+    ).add(4, "hours");
 
     const event = {
       summary: "This Omars testing",
-      start: {
-        dateTime: eventStartTime.toISOString(),
-        timeZone: "America/New_York",
-      },
-      end: {
-        dateTime: new Date(endTime).toISOString(),
-        timeZone: "America/New_York",
-      },
+      start: { dateTime: eventStartTime.toISOString() },
+      end: { dateTime: new Date(endTime).toISOString() },
       description: description,
       location: location,
     };
