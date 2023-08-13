@@ -97,8 +97,14 @@ app.post("/events", async (req, res) => {
 
     const event = {
       summary: "This Omars testing",
-      start: { dateTime: eventStartTime.toISOString() },
-      end: { dateTime: new Date(endTime).toISOString() },
+      start: {
+        dateTime: eventStartTime.toISOString(),
+        timeZone: "America/New_York",
+      },
+      end: {
+        dateTime: new Date(endTime).toISOString(),
+        timeZone: "America/New_York",
+      },
       description: description,
       location: location,
     };
@@ -124,7 +130,7 @@ Phone Number: ${phoneNumber}
 address:${location}
 When:${selectedDate} ${selectedTime}
 Does the vehicle have pet hair? (check if yes) : Yes
-Please State any + Services you would like to get and anything else you would want us to know: Must be completed by 10:30. Just need interior vacuumed and cleaned.
+Please State any + Services you would like to get and anything else you would want us to know: 
 
 `,
     });
