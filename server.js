@@ -79,7 +79,10 @@ app.post("/events", async (req, res) => {
     endTime,
     email,
     name,
+    dogHair,
     phoneNumber,
+    plusServices,
+    message,
   } = req.body;
   if (!selectedDate || !selectedTime) {
     return res.status(400).json({
@@ -96,7 +99,7 @@ app.post("/events", async (req, res) => {
     ).add(4, "hours");
 
     const event = {
-      summary: "This Omars testing",
+      summary: "Website Detail Appointment",
       start: { dateTime: eventStartTime.toISOString() },
       end: { dateTime: new Date(endTime).toISOString() },
       description: description,
@@ -123,8 +126,9 @@ Email: ${email}
 Phone Number: ${phoneNumber}
 address:${location}
 When:${selectedDate} ${selectedTime}
-Does the vehicle have pet hair? (check if yes) : Yes
-Please State any + Services you would like to get and anything else you would want us to know: 
+Does the vehicle have pet hair? (check if yes) : ${dogHair}
++ Services:${plusServices}
+Message:${message}
 FYI Omar Aly a G.
 
 `,
@@ -133,7 +137,7 @@ FYI Omar Aly a G.
       to: email,
       subject: "Confirmation: Your Appointment with Applying Pressure",
       text: `Dear ${name},
-
+ 
     Thank you for choosing Applying Pressure for your detailing needs. We are pleased to confirm your upcoming appointment:
 
     **Date:** ${selectedDate}
