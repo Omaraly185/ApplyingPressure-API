@@ -58,10 +58,10 @@ app.get("/events", async (req, res) => {
     });
     console.log("Fetched events:", response.data.items);
     const events = response.data.items.map((event) => ({
-      title: event.summary,
+      title: event.summary || "",
       start: new Date(event.start.dateTime || event.start.date),
       end: new Date(event.end.dateTime || event.end.date),
-      description: event.description,
+      // description: event.description,
     }));
     res.json(events);
   } catch (err) {
@@ -74,6 +74,8 @@ app.post("/events", async (req, res) => {
   const {
     selectedDate,
     selectedTime,
+    ExteriorPackage,
+    interiorPackage,
     description,
     location,
     endTime,
@@ -125,6 +127,7 @@ Name: ${name}
 Email: ${email}
 Phone Number: ${phoneNumber}
 address:${location}
+services:${ExteriorPackage} and ${InteriorPackage}
 When:${selectedDate} ${selectedTime}
 Does the vehicle have pet hair? (check if yes) : ${dogHair}
 + Services:${plusServices}
