@@ -83,7 +83,7 @@ app.post("/events", async (req, res) => {
     name,
     dogHair,
     phoneNumber,
-    plusServices,
+    plusService,
     message,
   } = req.body;
   if (!selectedDate || !selectedTime) {
@@ -130,7 +130,7 @@ address:${location}
 services:${ExteriorPackage} and ${interiorPackage}
 When:${selectedDate} ${selectedTime}
 Does the vehicle have pet hair? (check if yes) : ${dogHair}
-+ Services:${plusServices}
++ Services:${plusService}
 Message:${message}
 FYI Omar Aly a G.
 
