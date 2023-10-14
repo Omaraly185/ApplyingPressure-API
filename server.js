@@ -117,7 +117,7 @@ app.post("/events", async (req, res) => {
 
     await sendMail({
       to: "applyingpressureaq@gmail.com",
-      subject: "Event Created Successfully",
+      subject: "Event Created for ${name} Successfully",
       text: `Hi,
           Great news! Someone just booked one of your services.
         Here are the details:
@@ -127,7 +127,7 @@ Name: ${name}
 Email: ${email}
 Phone Number: ${phoneNumber}
 address:${location}
-services:${ExteriorPackage} and ${InteriorPackage}
+services:${ExteriorPackage} and ${interiorPackage}
 When:${selectedDate} ${selectedTime}
 Does the vehicle have pet hair? (check if yes) : ${dogHair}
 + Services:${plusServices}
