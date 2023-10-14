@@ -117,7 +117,7 @@ app.post("/events", async (req, res) => {
 
     await sendMail({
       to: "applyingpressureaq@gmail.com",
-      subject: "Event Created for ${name} Successfully",
+      subject: `Event Created for ${name} Successfully`,
       text: `Hi,
           Great news! Someone just booked one of your services.
         Here are the details:
