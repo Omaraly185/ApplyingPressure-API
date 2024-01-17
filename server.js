@@ -134,6 +134,9 @@ Does the vehicle have pet hair? (check if yes) : ${dogHair}
 Message:${message}
 FYI Omar Aly a G.
 
+
+"Hello ${name}, thank you for choosing us for your detail appointment. This is Omar from Applying Pressure Mobile Detailing. Confirming your booking for ${ExteriorPackage} and ${interiorPackage} detailing on your [Car Type]. Scheduled for ${selectedDate} ${selectedTime} at [Address]. Does that sound about right!
+
 `,
     });
     await sendMail({
