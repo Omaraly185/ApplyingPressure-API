@@ -47,14 +47,21 @@ async function sendMail({ to, subject, text }) {
 app.get("/events", async (req, res) => {
   const calendar = google.calendar({ version: "v3", auth: jwtClient });
 
+  // Calculate the date 5 months from now
+  const fiveMonthsFromNow = moment()
+    .add(5, "months")
+    .endOf("month")
+    .toISOString();
+
   let response;
   try {
     response = await calendar.events.list({
       calendarId: "applyingpressureaq@gmail.com",
       timeMin: new Date().toISOString(),
+      timeMax: fiveMonthsFromNow, // Set the maximum time to 5 months from now
       singleEvents: true,
       orderBy: "startTime",
-      maxResults: 9999,
+      maxResults: 9999, // You might want to remove or adjust maxResults as well
     });
     console.log("Fetched events:", response.data.items);
     const events = response.data.items.map((event) => ({
