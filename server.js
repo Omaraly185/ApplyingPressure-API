@@ -77,6 +77,32 @@ app.get("/events", async (req, res) => {
   }
 });
 
+app.post("/cermaic-quote", async (req, res) => {
+  const { name, email, phoneNumber, carType } = req.body;
+
+  const adminEmailText = `MOSTAFA AHMED HASSAN MAKE SURE TO CALL THIS PERSON:
+
+Customer Info:
+Name: ${name}
+Email: ${email}
+Phone Number: ${phoneNumber}
+Car Type: ${carType}
+`;
+
+  try {
+    await sendMail({
+      to: "applyingpressureaq@gmail.com",
+      subject: `Ceramic Coating Quote request for ${name}`,
+      text: adminEmailText,
+    });
+
+    res.status(200).json({ success: true, message: "Email sent successfully" });
+  } catch (err) {
+    console.error("Error sending email:", err);
+    res.status(500).json({ success: false, message: "Failed to send email" });
+  }
+});
+
 app.post("/events", async (req, res) => {
   const {
     selectedDate,
