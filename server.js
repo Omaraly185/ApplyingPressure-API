@@ -3,6 +3,7 @@ const { google } = require("googleapis");
 const moment = require("moment");
 const keys = require("./applying-pressure-388505-61bbc5c65b27.json");
 const nodemailer = require("nodemailer");
+const prerender = require("prerender-node");
 const app = express();
 const port = process.env.PORT || 4000;
 const cors = require("cors");
@@ -10,6 +11,8 @@ const cors = require("cors");
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
+prerender.set("prerenderToken", "wLU47ei7vMJkF5Gitbg7");
+app.use(prerender);
 
 const jwtClient = new google.auth.JWT({
   email: keys.client_email,
@@ -58,17 +61,16 @@ app.get("/events", async (req, res) => {
     response = await calendar.events.list({
       calendarId: "applyingpressureaq@gmail.com",
       timeMin: new Date().toISOString(),
-      timeMax: fiveMonthsFromNow, // Set the maximum time to 5 months from now
+      timeMax: fiveMonthsFromNow,
       singleEvents: true,
       orderBy: "startTime",
-      maxResults: 9999, // You might want to remove or adjust maxResults as well
+      maxResults: 9999,
     });
     console.log("Fetched events:", response.data.items);
     const events = response.data.items.map((event) => ({
       title: event.summary || "",
       start: new Date(event.start.dateTime || event.start.date),
       end: new Date(event.end.dateTime || event.end.date),
-      // description: event.description,
     }));
     res.json(events);
   } catch (err) {
