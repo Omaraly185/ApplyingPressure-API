@@ -7,6 +7,7 @@ const prerender = require("prerender-node");
 const app = express();
 const port = process.env.PORT || 4000;
 const cors = require("cors");
+const { createProxyMiddleware } = require("http-proxy-middleware");
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -27,6 +28,22 @@ jwtClient.authorize((err, tokens) => {
   }
   console.log("Authorization successful!");
 });
+const reactAppDomain = "https://www.apdetailers.com/";
+app.use(
+  "/",
+  createProxyMiddleware({
+    target: reactAppDomain,
+    changeOrigin: true,
+    onProxyReq: (proxyReq, req, res) => {
+      if (req.headers["user-agent"].includes("Prerender")) {
+        proxyReq.setHeader("X-Prerender-Token", "YOUR_PRERENDER_IO_TOKEN");
+      }
+    },
+    onError: (err, req, res) => {
+      res.status(500).send("Something went wrong.");
+    },
+  })
+);
 
 async function sendMail({ to, subject, text }) {
   let transporter = nodemailer.createTransport({
