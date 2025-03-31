@@ -68,7 +68,7 @@ app.get("/events", async (req, res) => {
     });
     console.log("Fetched events:", response.data.items);
     const events = response.data.items.map((event) => ({
-      title: event.summary || "",
+      title: "Detail",
       start: new Date(event.start.dateTime || event.start.date),
       end: new Date(event.end.dateTime || event.end.date),
     }));
@@ -139,7 +139,7 @@ app.post("/events", async (req, res) => {
       summary: "Website Detail Appointment",
       start: { dateTime: eventStartTime.toISOString() },
       end: { dateTime: new Date(endTime).toISOString() },
-      description: "Detail",
+      description: description,
       location: location,
     };
 
