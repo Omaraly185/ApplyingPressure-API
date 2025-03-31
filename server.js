@@ -139,7 +139,7 @@ app.post("/events", async (req, res) => {
       summary: "Website Detail Appointment",
       start: { dateTime: eventStartTime.toISOString() },
       end: { dateTime: new Date(endTime).toISOString() },
-      description: description,
+      description: "Detail",
       location: location,
     };
 
