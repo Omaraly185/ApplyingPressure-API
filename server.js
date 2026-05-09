@@ -2,8 +2,8 @@ const express = require("express");
 const { google } = require("googleapis");
 const moment = require("moment");
 const keys = require("./applying-pressure-388505-61bbc5c65b27.json");
-const { Resend } = require("resend");
-const resend = new Resend("re_FT2nkh1f_3kMxfc6zFzqfVYQWhjoQ1XtY");
+const https = require("https");
+const RESEND_API_KEY = "re_FT2nkh1f_3kMxfc6zFzqfVYQWhjoQ1XtY";
 const prerender = require("prerender-node");
 const app = express();
 const port = process.env.PORT || 4000;
@@ -30,20 +30,44 @@ jwtClient.authorize((err, tokens) => {
 });
 
 async function sendMail({ to, subject, text }) {
-  const { data, error } = await resend.emails.send({
-    from: "Applying Pressure Mobile Detailing <onboarding@resend.dev>",
-    to: [to],
-    subject: subject,
-    text: text,
+  return new Promise((resolve, reject) => {
+    const body = JSON.stringify({
+      from: "Applying Pressure Mobile Detailing <onboarding@resend.dev>",
+      to: [to],
+      subject,
+      text,
+    });
+    const req = https.request(
+      {
+        hostname: "api.resend.com",
+        path: "/emails",
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${RESEND_API_KEY}`,
+          "Content-Type": "application/json",
+          "Content-Length": Buffer.byteLength(body),
+        },
+      },
+      (res) => {
+        let data = "";
+        res.on("data", (chunk) => (data += chunk));
+        res.on("end", () => {
+          const parsed = JSON.parse(data);
+          if (res.statusCode >= 400) reject(new Error(parsed.message || "Resend error"));
+          else { console.log("Message sent:", parsed.id); resolve(parsed); }
+        });
+      }
+    );
+    req.on("error", reject);
+    req.write(body);
+    req.end();
   });
-  if (error) throw new Error(error.message);
-  console.log("Message sent:", data.id);
 }
 
 app.get("/events", async (req, res) => {
   const calendar = google.calendar({ version: "v3", auth: jwtClient });
 
-  // Calculate the date 5 months from now
+  // Calculate the date 5 months from nowgit
   const fiveMonthsFromNow = moment()
     .add(5, "months")
     .endOf("month")

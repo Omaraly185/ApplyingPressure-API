@@ -9,7 +9,6 @@
     "http-proxy-middleware": "^3.0.0",
     "moment": "^2.29.4",
     "nodemailer": "^6.9.3",
-    "prerender-node": "^3.8.0",
-    "resend": "3"
+    "prerender-node": "^3.8.0"
   }
 }
