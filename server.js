@@ -3,7 +3,7 @@ const { google } = require("googleapis");
 const moment = require("moment");
 const keys = require("./applying-pressure-388505-61bbc5c65b27.json");
 const https = require("https");
-const RESEND_API_KEY = "re_FT2nkh1f_3kMxfc6zFzqfVYQWhjoQ1XtY";
+const BREVO_API_KEY = process.env.BREVO_API_KEY;
 const prerender = require("prerender-node");
 const app = express();
 const port = process.env.PORT || 4000;
@@ -32,18 +32,18 @@ jwtClient.authorize((err, tokens) => {
 async function sendMail({ to, subject, text }) {
   return new Promise((resolve, reject) => {
     const body = JSON.stringify({
-      from: "Applying Pressure Mobile Detailing <onboarding@resend.dev>",
-      to: [to],
+      sender: { name: "Applying Pressure Mobile Detailing", email: "obreezy1965@gmail.com" },
+      to: [{ email: to }],
       subject,
-      text,
+      textContent: text,
     });
     const req = https.request(
       {
-        hostname: "api.resend.com",
-        path: "/emails",
+        hostname: "api.brevo.com",
+        path: "/v3/smtp/email",
         method: "POST",
         headers: {
-          Authorization: `Bearer ${RESEND_API_KEY}`,
+          "api-key": BREVO_API_KEY,
           "Content-Type": "application/json",
           "Content-Length": Buffer.byteLength(body),
         },
@@ -53,8 +53,8 @@ async function sendMail({ to, subject, text }) {
         res.on("data", (chunk) => (data += chunk));
         res.on("end", () => {
           const parsed = JSON.parse(data);
-          if (res.statusCode >= 400) reject(new Error(parsed.message || "Resend error"));
-          else { console.log("Message sent:", parsed.id); resolve(parsed); }
+          if (res.statusCode >= 400) reject(new Error(parsed.message || "Brevo error"));
+          else { console.log("Message sent:", parsed.messageId); resolve(parsed); }
         });
       }
     );
