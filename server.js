@@ -33,7 +33,7 @@ async function sendMail({ to, subject, text }) {
     service: "gmail",
     auth: {
       user: "obreezy1965@gmail.com",
-      pass: "jzuhjiuyjhjffbtk",
+      pass: "ikmsptkbrjcguwck",
     },
   });
   let info = await transporter.sendMail({
@@ -132,7 +132,7 @@ app.post("/events", async (req, res) => {
   try {
     const eventStartTime = moment(
       `${selectedDate} ${selectedTime}`,
-      "MMMM D, YYYY h:mm A"
+      "MMMM D, YYYY h:mm A",
     ).add(4, "hours");
 
     const event = {
