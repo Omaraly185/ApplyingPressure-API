@@ -35,7 +35,7 @@ async function sendMail({ to, subject, text }) {
     secure: false,
     auth: {
       user: "obreezy1965@gmail.com",
-      pass: "ikmsptkbrjcguwck",
+      pass: "yqie wsqa csms jvdv",
     },
   });
   let info = await transporter.sendMail({
@@ -139,8 +139,14 @@ app.post("/events", async (req, res) => {
 
     const event = {
       summary: "Website Detail Appointment",
-      start: { dateTime: eventStartTime.format("YYYY-MM-DDTHH:mm:ss"), timeZone: "America/New_York" },
-      end: { dateTime: moment(endTime).format("YYYY-MM-DDTHH:mm:ss"), timeZone: "America/New_York" },
+      start: {
+        dateTime: eventStartTime.format("YYYY-MM-DDTHH:mm:ss"),
+        timeZone: "America/New_York",
+      },
+      end: {
+        dateTime: moment(endTime).format("YYYY-MM-DDTHH:mm:ss"),
+        timeZone: "America/New_York",
+      },
       description: description,
       location: location,
     };
