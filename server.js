@@ -2,7 +2,8 @@ const express = require("express");
 const { google } = require("googleapis");
 const moment = require("moment");
 const keys = require("./applying-pressure-388505-61bbc5c65b27.json");
-const nodemailer = require("nodemailer");
+const { Resend } = require("resend");
+const resend = new Resend("re_FT2nkh1f_3kMxfc6zFzqfVYQWhjoQ1XtY");
 const prerender = require("prerender-node");
 const app = express();
 const port = process.env.PORT || 4000;
@@ -29,24 +30,14 @@ jwtClient.authorize((err, tokens) => {
 });
 
 async function sendMail({ to, subject, text }) {
-  let transporter = nodemailer.createTransport({
-    host: "smtp.gmail.com",
-    port: 587,
-    secure: false,
-    auth: {
-      user: "obreezy1965@gmail.com",
-      pass: "yqie wsqa csms jvdv",
-    },
-  });
-  let info = await transporter.sendMail({
-    from: '"Applying Pressure Mobile Detailing" <ApplyingPressure-noreply@gmail.com>',
-    to: to,
+  const { data, error } = await resend.emails.send({
+    from: "Applying Pressure Mobile Detailing <onboarding@resend.dev>",
+    to: [to],
     subject: subject,
     text: text,
   });
-
-  console.log("Message sent: %s", info.messageId);
-  console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
+  if (error) throw new Error(error.message);
+  console.log("Message sent:", data.id);
 }
 
 app.get("/events", async (req, res) => {
