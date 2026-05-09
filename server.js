@@ -135,12 +135,12 @@ app.post("/events", async (req, res) => {
     const eventStartTime = moment(
       `${selectedDate} ${selectedTime}`,
       "MMMM D, YYYY h:mm A",
-    ).add(4, "hours");
+    );
 
     const event = {
       summary: "Website Detail Appointment",
-      start: { dateTime: eventStartTime.toISOString() },
-      end: { dateTime: new Date(endTime).toISOString() },
+      start: { dateTime: eventStartTime.format("YYYY-MM-DDTHH:mm:ss"), timeZone: "America/New_York" },
+      end: { dateTime: moment(endTime).format("YYYY-MM-DDTHH:mm:ss"), timeZone: "America/New_York" },
       description: description,
       location: location,
     };
