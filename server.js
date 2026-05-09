@@ -30,7 +30,9 @@ jwtClient.authorize((err, tokens) => {
 
 async function sendMail({ to, subject, text }) {
   let transporter = nodemailer.createTransport({
-    service: "gmail",
+    host: "smtp.gmail.com",
+    port: 587,
+    secure: false,
     auth: {
       user: "obreezy1965@gmail.com",
       pass: "ikmsptkbrjcguwck",
