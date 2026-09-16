@@ -5,6 +5,7 @@ const keys = require("./applying-pressure-388505-61bbc5c65b27.json");
 const https = require("https");
 const BREVO_API_KEY = process.env.BREVO_API_KEY;
 const prerender = require("prerender-node");
+const pool = require("./db");
 const app = express();
 const port = process.env.PORT || 4000;
 const cors = require("cors");
@@ -137,6 +138,10 @@ app.post("/events", async (req, res) => {
     phoneNumber,
     plusService,
     message,
+    carType,
+    zipcode,
+    servicePrice,
+    total,
   } = req.body;
   if (!selectedDate || !selectedTime) {
     return res.status(400).json({
@@ -172,6 +177,23 @@ app.post("/events", async (req, res) => {
     });
 
     console.log("Created event:", createdEvent.data);
+
+    const service = [ExteriorPackage, interiorPackage].filter(Boolean).join(" + ");
+    await pool.query(
+      `INSERT INTO bookings (name, phone, date_time, service, service_price, total, car_type, address, zipcode)
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)`,
+      [
+        name,
+        phoneNumber,
+        eventStartTime.toISOString(),
+        service,
+        servicePrice || null,
+        total || null,
+        carType || null,
+        location || null,
+        zipcode || null,
+      ],
+    );
 
     await sendMail({
       to: "applyingpressureaq@gmail.com",
@@ -225,6 +247,18 @@ FYI Omar Aly a G.
     res
       .status(500)
       .json({ success: false, message: "Failed to create appointment" });
+  }
+});
+
+app.get("/bookings", async (req, res) => {
+  try {
+    const result = await pool.query(
+      "SELECT * FROM bookings ORDER BY date_time DESC",
+    );
+    res.json(result.rows);
+  } catch (err) {
+    console.error("Error fetching bookings:", err);
+    res.status(500).json({ success: false, message: "Failed to fetch bookings" });
   }
 });
 

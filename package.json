@@ -1,6 +1,7 @@
 {
   "scripts": {
-    "build": "echo 'No build step'"
+    "build": "echo 'No build step'",
+    "migrate": "node scripts/migrate.js"
   },
   "dependencies": {
     "cors": "^2.8.5",
@@ -9,6 +10,7 @@
     "http-proxy-middleware": "^3.0.0",
     "moment": "^2.29.4",
     "nodemailer": "^6.9.3",
+    "pg": "^8.23.0",
     "prerender-node": "^3.8.0"
   }
 }
